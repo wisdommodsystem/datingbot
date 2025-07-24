@@ -3,6 +3,20 @@ const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
 
+// ✅ تشغيل خادم Express باش Render ما يطفّيش البوت
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
+
+app.get('/', (req, res) => {
+  res.send('🟢 Bot is running successfully.');
+});
+
+app.listen(port, () => {
+  console.log(`🌐 Web server is running on port ${port}`);
+});
+
+// ✅ Discord Bot setup
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -56,7 +70,6 @@ client.on('messageCreate', async message => {
 client.on('messageReactionAdd', async (reaction, user) => {
   if (user.bot) return;
 
-  // Fetch the reaction if it's partial
   if (reaction.partial) {
     try {
       await reaction.fetch();
@@ -83,4 +96,4 @@ client.on('messageReactionAdd', async (reaction, user) => {
   }
 });
 
-client.login(process.env.DISCORD_TOKEN); 
+client.login(process.env.DISCORD_TOKEN);
